@@ -1,9 +1,11 @@
 "use client";
 import * as z from 'zod';
+import axios from 'axios';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'react-hot-toast'
 
-import { useStoreModal } from "@/hooks/use-store-modal";
 import { 
     Form,
     FormControl, 
@@ -15,6 +17,7 @@ import {
 import { Modal } from "@/components/ui/modal";
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useStoreModal } from "@/hooks/use-store-modal";
 
 //The zod schema that represents our form and its validation rules.
 const formSchema = z.object({
@@ -25,6 +28,9 @@ export const StoreModal = () => {
 
     //Custom hook to manage the State: This is the zustand state manager.
     const storeModal = useStoreModal();
+
+    //state to block the UI once submit button is pressed.
+    const [ loading, setLoading ] = useState(false)
     
     //Initializes and configurates the form: using react-hook-form, and configurates it using zodResolver 
     // to link it with the previous defined zod schema, as validator.
@@ -37,8 +43,17 @@ export const StoreModal = () => {
     
     //Form's submit button: its behaviour.
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values);
-        //TODO: Create Store.
+        try {
+            setLoading(true);
+            
+            const response = await axios.post("/api/stores", values);
+
+            toast.success('Store created.')
+        } catch (error) {
+            toast.error('Something went wrong.')
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -60,6 +75,7 @@ export const StoreModal = () => {
                                      <FormLabel>Name</FormLabel>
                                      <FormControl>
                                         <Input 
+                                            disabled={loading}
                                             placeholder='E-Commerce'
                                             {...field}
                                         />
@@ -70,11 +86,12 @@ export const StoreModal = () => {
                         />
                         <div className='pt-6 space-x-2 flex items-center justify-end w-full'>
                             <Button 
+                                disabled={loading}
                                 variant="outline"
                                 onClick={storeModal.onClose}>
                                 Cancel
                             </Button>
-                            <Button type="submit">
+                            <Button disabled={loading} type="submit">
                                 Continue
                             </Button>
                         </div>
