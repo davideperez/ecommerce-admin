@@ -26,7 +26,7 @@ const formSchema = z.object({
 
 export const StoreModal = () => {
 
-    //Custom hook to manage the State: This is the zustand state manager.
+    //This line listens to the useStoreModal useEffect.
     const storeModal = useStoreModal();
 
     //state to block the UI once submit button is pressed.
@@ -48,7 +48,7 @@ export const StoreModal = () => {
             
             const response = await axios.post("/api/stores", values);
 
-            toast.success('Store created.')
+            window.location.assign(`/${response.data.id}`)
         } catch (error) {
             toast.error('Something went wrong.')
         } finally {
