@@ -48,6 +48,9 @@ export const StoreModal = () => {
             
             const response = await axios.post("/api/stores", values);
 
+            //Using window assign instead of the router of next navigation
+            //to ensure the app refreshes before showing the page, and the 
+            //store is 100% certainly created on the db.
             window.location.assign(`/${response.data.id}`)
         } catch (error) {
             toast.error('Something went wrong.')
