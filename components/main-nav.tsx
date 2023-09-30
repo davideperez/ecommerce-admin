@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils"
 
 export function MainNav ({
     className,
-    ...props
-}: React.HTMLAttributes<HTMLElement>) {
+    ...props // porque el spread??
+}: React.HTMLAttributes<HTMLElement>) {//?? Porque usa ese type aca y no en otros elements.
     const pathname = usePathname();
     const params = useParams()
 
