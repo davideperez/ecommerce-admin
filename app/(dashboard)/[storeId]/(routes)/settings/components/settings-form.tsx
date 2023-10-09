@@ -1,11 +1,14 @@
 "use client"
 
 import * as z from "zod";
+import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { Trash } from "lucide-react";
 import { Store } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useParams, useRouter } from "next/navigation";
 
 import { 
     Form, 
@@ -15,13 +18,13 @@ import {
     FormControl,
     FormMessage, 
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
 
 interface SettingsFormProps {
-    initialData: Store
+    initialData: Store;
 }
 
 const formSchema = z.object({
@@ -31,9 +34,11 @@ const formSchema = z.object({
 // This is so we dont have to write the following line every time. 
 type SettingsFormValues = z.infer<typeof formSchema>;
 
-const SettingsForm: React.FC<SettingsFormProps> = ({
+export const SettingsForm: React.FC<SettingsFormProps> = ({
     initialData
 }) => {
+    const params = useParams()
+    const router = useRouter()
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -44,7 +49,20 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
     })
 
     const onSubmit = async (data: SettingsFormValues) => {
-        console.log(data)
+        try {
+            setLoading(true)
+            console.log('This is params.storeId from settings-form.tsx on Submit function', params.storeId)
+            console.log('This is data from settings-form.tsx on Submit function', data)
+            
+            await axios.patch(`/api/stores/${params.storeId}`, data)
+            router.refresh()
+            toast.success("Store updated.")
+            
+        } catch (error) {
+            toast.error("Something went wrong.")
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -54,10 +72,11 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
                     title="Settings"
                     description="Manage store preferences"
                     />
-                <Button 
+                <Button
+                    disabled={loading} 
                     variant="destructive"
                     size="sm"
-                    onClick={()=>{}}
+                    onClick={()=> setOpen(true)}
                     >
                     <Trash className="h-4 w-4"/>
                 </Button>
@@ -80,11 +99,10 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
                             )}
                         />
                     </div>
-
+                    <Button disabled={loading} className="ml-auto" type="submit">
+                        Save changes
+                    </Button>
                 </form>
-                <Button disabled={loading} className="ml-auto" type="submit">
-                    Save changes
-                </Button>
             </Form>
         </> 
      );
