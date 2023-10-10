@@ -9,8 +9,7 @@ export async function PATCH (
 ) {
     try {
         const { userId } = auth()
-        const { body } = await req.json()
-        console.log('This is data from [storeId] on PATCH function', body)
+        const body = await req.json()
 
         const { name } = body
 

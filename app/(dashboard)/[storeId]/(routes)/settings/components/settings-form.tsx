@@ -22,6 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
+import { AlertModal } from "@/components/modals/alert-modal";
 
 interface SettingsFormProps {
     initialData: Store;
@@ -51,9 +52,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
     const onSubmit = async (data: SettingsFormValues) => {
         try {
             setLoading(true)
-            console.log('This is params.storeId from settings-form.tsx on Submit function', params.storeId)
-            console.log('This is data from settings-form.tsx on Submit function', data)
-            
+
             await axios.patch(`/api/stores/${params.storeId}`, data)
             router.refresh()
             toast.success("Store updated.")
@@ -65,8 +64,30 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
         }
     }
 
+    const onDelete = async () => {
+        try {
+            setLoading(true)
+
+            await axios.delete(`/api/stores/${params.storeId}`);
+            router.refresh();
+            router.push("/");
+            toast.success("Store deleted.")
+        } catch (error) {
+            toast.error("Make sure you removed all products and categories first. ")
+        } finally {
+            setLoading(false)
+            setOpen(false)
+        }
+    }
+
     return (
         <>
+            <AlertModal 
+                isOpen={open}
+                onClose={() => setOpen(false)}
+                onConfirm={onDelete}
+                loading={loading}
+            />
             <div className="flex items-center justify-between">
                 <Heading 
                     title="Settings"
