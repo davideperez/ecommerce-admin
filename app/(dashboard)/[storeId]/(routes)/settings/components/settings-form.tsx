@@ -21,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
+import { ApiAlert } from "@/components/ui/api-alert";
 import { Separator } from "@/components/ui/separator";
 import { AlertModal } from "@/components/modals/alert-modal";
 
@@ -125,6 +126,12 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
                     </Button>
                 </form>
             </Form>
+            <Separator />
+            <ApiAlert 
+                title="NEXT_PUBLIC_API_URL" 
+                description={`${origin}/api/${params.storeId}`}
+                variant="public"
+            />
         </> 
      );
 }
