@@ -19,6 +19,7 @@ import {
     FormMessage, 
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useOrigin } from "@/hooks/use-origin";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { ApiAlert } from "@/components/ui/api-alert";
@@ -41,6 +42,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({
 }) => {
     const params = useParams()
     const router = useRouter()
+    const origin = useOrigin()
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
