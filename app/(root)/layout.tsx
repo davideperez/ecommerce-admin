@@ -13,6 +13,10 @@ export default async function SetupLayout ({ children }: { children: React.React
         redirect('/sign-in')
     }
 
+    //---//
+
+    const billboard = await prismadb.billboard
+
     //Fetches the first store own by the user
     const store = await prismadb.store.findFirst({
         where: {
@@ -20,11 +24,12 @@ export default async function SetupLayout ({ children }: { children: React.React
         }
     })
     
-    //Validates there is a store, if so
+    //Validates there is a store, if so redirects to it.
     if (store) {
         redirect(`/${store.id}`)
     }
 
+    //???
     return (
         <>
             { children }        
