@@ -12,7 +12,7 @@ export async function POST (req: Request) {
         
         //If we dont have an id.
         if (!userId) {
-            return new NextResponse('Unauthorized', { status: 401});
+            return new NextResponse('Unauthenticated', { status: 401});
         }
         
         //If we dont have a name:

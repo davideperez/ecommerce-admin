@@ -26,8 +26,9 @@ export default async function DashboardLayout ({
         }
     })
     
-    //3 Checks if the store fetched actually exists
-    //3.1 If not, redirects to home.
+    //-- Core Functionality --//
+
+    // It there is no store, redirects to home.
     if (!store) {
         redirect('/')
     }
