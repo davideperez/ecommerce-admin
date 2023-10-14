@@ -19,10 +19,8 @@ import {
     FormMessage, 
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useOrigin } from "@/hooks/use-origin";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
-import { ApiAlert } from "@/components/ui/api-alert";
 import { Separator } from "@/components/ui/separator";
 import ImageUpload from "@/components/ui/image-upload";
 import { AlertModal } from "@/components/modals/alert-modal";
@@ -44,7 +42,6 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
 }) => {
     const params = useParams()
     const router = useRouter()
-    const origin = useOrigin()
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
