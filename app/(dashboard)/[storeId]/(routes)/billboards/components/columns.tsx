@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button";
+import { CellAction } from "./cell-action";
 
 export type BillboardColumn = {
   id: string;
@@ -11,7 +12,7 @@ export type BillboardColumn = {
   createdAt: string;
 }
 
-export const columns: ColumnDef<BillboardColumn>[] = [
+export const columns: ColumnDef<BillboardColumn>[] = [ // ??what are the brackets for??
   {
     accessorKey: "label",
     header: ({ column }) => {
@@ -29,4 +30,8 @@ export const columns: ColumnDef<BillboardColumn>[] = [
     accessorKey: "createdAt",
     header: "Date",
   },
+  {
+    id: "actions",
+    cell: ({ row }) => <CellAction data={row.original} /> //?? Did not understand this line.
+  }
 ]
