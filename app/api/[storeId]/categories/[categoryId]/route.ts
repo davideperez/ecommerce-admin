@@ -20,6 +20,9 @@ export async function GET (
             where: {
                 id: params.categoryId,
             },
+            include: {
+                billboard: true,
+            }
         })
 
         return NextResponse.json(category);
@@ -27,7 +30,6 @@ export async function GET (
     } catch (error) {
         console.log('[CATEGORY_GET]', error)
         return new NextResponse("Internal Error", { status: 500 })
-
     }
 }
 

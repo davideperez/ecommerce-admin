@@ -11,7 +11,7 @@ const ProductPage = async ({
             id: params.productId
         },
         include: {
-            images: true //?? did not understand why this.
+            images: true //?? I do not understand why this.
         }
     })
 
