@@ -58,7 +58,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
             imageUrl: ''
         }
     })
-
+    //?? Understand this one. How does form integrates with onSubmit
     const onSubmit = async (data: BillboardFormValues) => {
         try {
             setLoading(true)
